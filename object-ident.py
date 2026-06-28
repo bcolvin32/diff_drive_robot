@@ -1,4 +1,4 @@
-import argparse
+import numpy as np
 import cv2
 
 
@@ -21,8 +21,8 @@ net.setInputScale(1.0/ 127.5)
 net.setInputMean((127.5, 127.5, 127.5))
 net.setInputSwapRB(True)
 
-#kernel sizes for smoothing
-kernelSizes = [(3, 3), (9, 9), (15, 15)]
+#create the kernel with numpy
+kernel2 = np.ones((5, 5), np.float32)/25
 
 #This is to set up what the drawn box size/color of the name tag and confidence label
 def getObjects(img, thres, nms, draw=True, objects=[]):
@@ -70,12 +70,15 @@ if __name__ == "__main__":
 #Below is the never ending loop that determines what will happen when an object is identified
     while True:
         success, img = cap.read()
+        #blur the image for smoother detection
+        img2 = cv2.filter2D(src=img, ddepth=-1, kernel=kernel2)
         #below provides a huge amount of control. The value 0.45 is the threshold number, the value 0.2 is the nms number
         #currently set to only detect a person
-        result, objectInfo = getObjects(img,0.45,0.2, objects=['person'])
+        #takes in the blurred image (img2)
+        result, objectInfo = getObjects(img2,0.45,0.2, objects=['person'])
         #print(objectInfo)
 
-        cv2.imshow("Output",img)
+        cv2.imshow("Output",img2)
         cv2.waitKey(1)
         
         
