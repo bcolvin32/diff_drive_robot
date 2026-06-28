@@ -1,1 +1,2 @@
 # diff_drive_robot
+The goal of this project is to create a basic differential drive robot that can be built upon later. My first iteration is planned to detect a person using a usb camera, then navigate towards them. The base code for this is heavily built around the computer vision code from core-electronics.com.au/guides/object-identify-raspberry-pi/.
